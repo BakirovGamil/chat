@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "hbs": "^4.2.0",
+    "mongoose": "^6.2.2",
+    "nconf": "^0.11.3",
+    "winston": "^3.6.0"
+  }
+}
