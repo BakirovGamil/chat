@@ -1,5 +1,6 @@
 const express = require("express");
-const session = require('express-session');
+const session = require("express-session");
+const mongoStore = require("connect-mongo");
 const hbs = require("hbs");
 const conf = require("./lib/config/config");
 const log = require("./lib/logger").createLogger(module);
@@ -16,13 +17,23 @@ app.set("views", "templates"); // установка пути к предста�
 app.set("view options", {layout: "layouts/layout"}); // устанавливаем настройки для файлов layout
 hbs.registerPartials(__dirname + "/templates/partials");
 
+app.use(
+    session({
+      secret: conf.get("session:secret"),
+      key: conf.get("session:key"),
+      cookie: conf.get("session:cookie"),
+      resave: conf.get("session:resave"),
+      saveUninitialized: conf.get("session:saveUninitialized"),
+      store: mongoStore.create({mongoUrl: conf.get("mongoUrl")})
+    }),
+);
 app.use(express.static(__dirname + "/public"));
 app.use(urlencodedParser, jsonParser);
 app.use("/authorization", authorizationRouter);
 
 const start = async function() {
     try{
-        await mongoose.connect("mongodb://localhost:27017/chat");
+        await mongoose.connect(conf.get("mongoUrl"));
         app.listen(conf.get("port"), () => {
             log.info(`Сервер запустился на порте ${conf.get("port")}`);
         });

@@ -1,6 +1,17 @@
 {
+    "mongoUrl": "mongodb://localhost:27017/chat",
     "port" : 3000,
     "secret" : {
         "key": "Hello"
+    },
+    "session" : {
+        "secret" : "Hello",
+        "key": "SID",
+        "resave": true,
+        "saveUninitialized": true,
+        "cookie" : {
+            "httpOnly": true,
+            "maxAge": 9999999
+        }
     }
 }
