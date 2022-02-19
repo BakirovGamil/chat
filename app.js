@@ -4,10 +4,7 @@ const hbs = require("hbs");
 const conf = require("./lib/config/config");
 const log = require("./lib/logger").createLogger(module);
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const authorizationRouter = require("./routes/authorizationRouter");
-const { body, validationResult } = require("express-validator"); 
-
 const app = express();
 
 const urlencodedParser = express.urlencoded({extended: false});
@@ -20,7 +17,8 @@ app.set("view options", {layout: "layouts/layout"}); // устанавливае
 hbs.registerPartials(__dirname + "/templates/partials");
 
 app.use(express.static(__dirname + "/public"));
-app.use("/authorization", jsonParser, authorizationRouter);
+app.use(urlencodedParser, jsonParser);
+app.use("/authorization", authorizationRouter);
 
 const start = async function() {
     try{
