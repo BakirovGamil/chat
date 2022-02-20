@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,7 +7,6 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
-	<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
   <form method="post" class="login">
@@ -29,5 +25,30 @@
     </p>
     <p class="forgot-password"><a href="registration.html">Регистрация</a></p>
   </form>
+
+  <script>
+    const submitBtn = document.querySelector(".login-button");
+    submitBtn.onclick = async function(e) {
+      e.preventDefault();
+      const user = {
+        login: document.forms[0].elements["login"].value,
+        password: document.forms[0].elements["password"].value,
+      };
+
+      const response = await fetch("/authorization/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user),
+      });
+
+      const result = await response.json();
+      console.log(result.message);
+      if(response.ok) {
+        window.location.href = "/chat.html";
+      }
+    }
+  </script>
 </body>
 </html>

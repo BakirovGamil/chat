@@ -5,7 +5,9 @@ const hbs = require("hbs");
 const conf = require("./lib/config/config");
 const log = require("./lib/logger").createLogger(module);
 const mongoose = require('mongoose');
+const autorizationController = require("./controllers/autorizationController");
 const authorizationRouter = require("./routes/authorizationRouter");
+const chatRouter = require("./routes/chatRouter");
 const app = express();
 
 const urlencodedParser = express.urlencoded({extended: false});
@@ -25,11 +27,12 @@ app.use(
       resave: conf.get("session:resave"),
       saveUninitialized: conf.get("session:saveUninitialized"),
       store: mongoStore.create({mongoUrl: conf.get("mongoUrl")})
-    }),
+    })
 );
 app.use(express.static(__dirname + "/public"));
 app.use(urlencodedParser, jsonParser);
 app.use("/authorization", authorizationRouter);
+app.use("/chat", autorizationController.authenticationMiddleware(), authorizationRouter);
 
 const start = async function() {
     try{
