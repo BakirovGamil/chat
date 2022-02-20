@@ -1,6 +1,6 @@
 {
     "mongoUrl": "mongodb://localhost:27017/chat",
-    "port" : 3000,
+    "port" : 80,
     "secret" : {
         "key": "Hello"
     },

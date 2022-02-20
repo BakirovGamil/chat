@@ -7,7 +7,6 @@ const log = require("./lib/logger").createLogger(module);
 const mongoose = require('mongoose');
 const autorizationController = require("./controllers/autorizationController");
 const authorizationRouter = require("./routes/authorizationRouter");
-const chatRouter = require("./routes/chatRouter");
 const app = express();
 
 const urlencodedParser = express.urlencoded({extended: false});
@@ -29,10 +28,24 @@ app.use(
       store: mongoStore.create({mongoUrl: conf.get("mongoUrl")})
     })
 );
+
+app.use((req, res, next) => {
+    const arr = ["/", "/index.html", "/registration.html"];
+
+    if(req.session.isAuth && arr.includes(req.ursl))
+        res.redirect("chat.html");
+    else
+        next();
+});
+
 app.use(express.static(__dirname + "/public"));
 app.use(urlencodedParser, jsonParser);
 app.use("/authorization", authorizationRouter);
-app.use("/chat", autorizationController.authenticationMiddleware(), authorizationRouter);
+app.use(autorizationController.authenticationMiddleware());
+app.use(express.static(__dirname + "/private"));
+app.use((req, res) => {
+    res.status("404").send("Страница не найдена");
+});
 
 const start = async function() {
     try{

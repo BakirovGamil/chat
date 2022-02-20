@@ -6,6 +6,7 @@
 	<title>Авторизация</title>
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -46,6 +47,7 @@
       const result = await response.json();
       console.log(result.message);
       if(response.ok) {
+        localStorage.setItem("name", result.name);
         window.location.href = "/chat.html";
       }
     }

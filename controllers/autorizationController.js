@@ -7,7 +7,7 @@ const res = require("express/lib/response");
 
 exports.registration = async function (request, response, next) {
     try{
-        log.info(`Поступил запрос на регистрацию ${request.body.login} ${request.body.password}`);
+        log.info(`Поступил запрос на регистрацию`);
         const errors = validationResult(request); 
         if(!errors.isEmpty()) return response.status(400).json({message: "Логин или пароль содержит менее 4 символов"})
 
@@ -39,7 +39,7 @@ exports.login = async function (request, response, next) {
         const candidate = await User.findOne({login, password: hashPassword});
         if(!candidate) return response.status(400).json({message: "Неверный логин или пароль"});
         request.session.isAuth = true;
-        response.status(200).json({message: "Авторизация прошла успешно"});
+        response.status(200).json({message: "Авторизация прошла успешно", name: login});
         log.info("Авторизация прошла успешно");
     } catch(e) {
         log.error(e.message);
@@ -47,9 +47,19 @@ exports.login = async function (request, response, next) {
     }
 };
 
+exports.logout = async function(req, res) {
+    try {
+        log.info("Поступил запрос на выход");
+        req.session.destroy();
+        res.status(200).json({message: "Успешный выход из аккаунта"});
+    } catch (e) {
+        log.error(e.message);
+        response.sendStatus(500);
+    }
+}
+
 exports.authenticationMiddleware = function authenticationMiddleware () {
     return function (req, res, next) {
-        log.info(req.session.isAuth);
         if (req.session.isAuth) {
             return next()
         }
