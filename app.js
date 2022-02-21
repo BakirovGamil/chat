@@ -35,6 +35,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(urlencodedParser, jsonParser);
 app.use("/authorization", authorizationRouter);
 app.use(autorizationController.authenticationMiddleware());
+app.get("/chat", function(req, res) {
+    res.render("chat");
+});
 app.use(express.static(__dirname + "/private"));
 app.use((req, res) => {
     res.status("404").send("Страница не найдена");

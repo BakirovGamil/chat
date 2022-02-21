@@ -19,7 +19,7 @@ if(loginBtn) {
         addNote(result.message, response.ok);
         if(response.ok) {
             localStorage.setItem("name", result.name);
-            window.location.href = "/chat.html";
+            window.location.href = "/chat";
         }
     };
 }
