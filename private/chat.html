@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
     <link rel="stylesheet" href="css/chatStyle.css">
-    <script defer src="js/main.js"></script>
+    <script defer src="js/chatScript.js"></script>
 </head>
 <body>
     <div class="preloader">
@@ -43,7 +43,7 @@
                 <nav class="header__nav nav">
                     <ul class="header__list nav__list">
                         <li class="nav__list-item">
-                           <a href="#" class="nav__link">Главная</a> 
+                           <a href="chat.html" class="nav__link">Главная</a> 
                         </li>
                         <li class="nav__list-item">
                             <span class="nav__name"></span>
@@ -55,14 +55,29 @@
                 </nav>
             </div>
         </header>
-        <main class="main">
-        </main>
+        <div class="flex-main-container">
+            <aside class="sidebar">
+                <ul class="sidebar__nav">
+                    <li class="sidebar__item">
+                        <button class="sidebar__button">Друзья</button>
+                    </li>
+                    <li class="sidebar__item">
+                        <button class="sidebar__button">Сообщения</button>
+                    </li>
+                </ul>
+            </aside>
+            <main class="main">
+               <div>
+                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi nesciunt tempore ducimus sunt provident optio nemo, assumenda ad officia error amet minus aliquam voluptas dolor veritatis eum explicabo impedit aliquid.
+               </div>
+            </main>
+        </div>
         <footer class="footer">
             <div class="container">
                 <div class="flex-container">
                     <div class="flex-row">
                         <div class="footer__copy">
-                            © 2018 Bakirov
+                            © 2022 Bakirov
                         </div>
                     </div>
                 </div>

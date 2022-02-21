@@ -3,7 +3,6 @@ const User = require("../scheme/user");
 const crypto = require("crypto");
 const conf = require("../lib/config/config");
 const {validationResult} =  require("express-validator");
-const res = require("express/lib/response");
 
 exports.registration = async function (request, response, next) {
     try{

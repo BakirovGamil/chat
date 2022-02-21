@@ -5,7 +5,8 @@ const hbs = require("hbs");
 const conf = require("./lib/config/config");
 const log = require("./lib/logger").createLogger(module);
 const mongoose = require('mongoose');
-const autorizationController = require("./controllers/autorizationController");
+const startRouter = require("./routes/startRouter");
+const autorizationController = require("./controllers/autorizationController")
 const authorizationRouter = require("./routes/authorizationRouter");
 const app = express();
 
@@ -29,15 +30,7 @@ app.use(
     })
 );
 
-app.use((req, res, next) => {
-    const arr = ["/", "/index.html", "/registration.html"];
-
-    if(req.session.isAuth && arr.includes(req.ursl))
-        res.redirect("chat.html");
-    else
-        next();
-});
-
+app.use("/", startRouter);
 app.use(express.static(__dirname + "/public"));
 app.use(urlencodedParser, jsonParser);
 app.use("/authorization", authorizationRouter);
