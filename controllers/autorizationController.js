@@ -7,8 +7,8 @@ const {validationResult} =  require("express-validator");
 exports.registration = async function (request, response, next) {
     try{
         log.info(`Поступил запрос на регистрацию`);
-        const errors = validationResult(request); 
-        if(!errors.isEmpty()) return response.status(400).json({message: "Логин или пароль содержит менее 4 символов"})
+        const errors = validationResult(request);
+        if(!errors.isEmpty()) return response.status(400).json({message: errors.errors[0].msg})
 
         const {login, password} = request.body;
         const candidate = await User.findOne({login});
@@ -31,7 +31,7 @@ exports.login = async function (request, response, next) {
     try{
         log.info("Поступил запрос на авторизацию");
         const errors = validationResult(request); 
-        if(!errors.isEmpty()) return response.status(400).json({message: "Логин или пароль содержит менее 4 символов"})
+        if(!errors.isEmpty()) return response.status(400).json({message: errors.msg})
 
         const {login, password} = request.body;
         const hashPassword = crypto.createHmac('sha256', conf.get("secret:key")).update(password).digest('hex');

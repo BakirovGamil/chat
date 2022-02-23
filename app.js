@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const startRouter = require("./routes/startRouter");
 const autorizationController = require("./controllers/autorizationController")
 const authorizationRouter = require("./routes/authorizationRouter");
+const friendsRouter = require("./routes/friendsRouter");
 const app = express();
 
 const urlencodedParser = express.urlencoded({extended: false});
@@ -39,6 +40,7 @@ app.get("/chat", function(req, res) {
     res.render("chat");
 });
 app.use(express.static(__dirname + "/private"));
+app.use("/friends", friendsRouter);
 app.use((req, res) => {
     res.status("404").send("Страница не найдена");
 });

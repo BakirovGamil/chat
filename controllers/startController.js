@@ -1,8 +1,6 @@
-const log = require("../lib/logger").createLogger(module);
-
 exports.toLogin = function(req, res) {
     if(req.session.isAuth)
-        res.redirect("chat.html");
+        res.redirect("chat");
     else {
         let path = __dirname.split("\\");
         path.pop();
@@ -13,7 +11,7 @@ exports.toLogin = function(req, res) {
 
 exports.toRegistration = function(req, res) {
     if(req.session.isAuth)
-        res.redirect("chat.html");
+        res.redirect("chat");
     else { 
         let path = __dirname.split("\\");
         path.pop();
