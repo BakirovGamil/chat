@@ -38,6 +38,7 @@ exports.login = async function (request, response, next) {
         const candidate = await User.findOne({login, password: hashPassword});
         if(!candidate) return response.status(400).json({message: "Неверный логин или пароль"});
         request.session.isAuth = true;
+        request.session.login = login;
         response.status(200).json({message: "Авторизация прошла успешно", name: login});
         log.info("Авторизация прошла успешно");
     } catch(e) {

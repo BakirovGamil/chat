@@ -66,3 +66,11 @@ document.addEventListener("click", (e) => {
 
 const preloader = document.querySelector(".preloader");
 preloader.remove();
+
+const socket = io();
+document.addEventListener("click", (e) => {
+    if(!(e.target.tagName == "BUTTON" && e.target.classList.contains("friends__message"))) return;
+    
+    socket.emit("joinroom", e.target.previousElementSibling.textContent);
+    socket.on("message", (data) => console.log(data));
+});
