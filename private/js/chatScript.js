@@ -68,9 +68,60 @@ const preloader = document.querySelector(".preloader");
 preloader.remove();
 
 const socket = io();
+
+const paramsString = document.location.search;
+const searchParams = new URLSearchParams(paramsString);   
+
+const who = searchParams.get("who");
+if(who) {
+    socket.emit("joinroom", who);
+    socket.io.on("reconnect", () => {
+        socket.emit("joinroom", who);
+    });
+}
+
+
 document.addEventListener("click", (e) => {
     if(!(e.target.tagName == "BUTTON" && e.target.classList.contains("friends__message"))) return;
     
-    socket.emit("joinroom", e.target.previousElementSibling.textContent);
-    socket.on("message", (data) => console.log(data));
+    const who = e.target.previousElementSibling.textContent;
+    window.location.href = `messages/?who=${who}`;
+});
+
+function sendMessage() {
+    const msgForm = document.forms.messages;
+    const msg = {text: msgForm.elements.messagesTb.value};
+    msg.who = localStorage.getItem("name");
+    if(!msg.text.trim()) return;
+
+    socket.emit("data", msg);
+    msgForm.elements.messagesTb.value = "";
+}
+
+document.addEventListener("click", (e) => {
+    if(!e.target.classList.contains("messageBtn")) return;
+    
+    e.preventDefault();
+
+    sendMessage();
+});
+
+document.addEventListener("keydown", (e) => {
+    if(!e.target.classList.contains("messagesTb"));
+
+    if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+socket.on("message", (msg) => {
+    const msgList = document.querySelector(".messages__list");
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent =  msg.who;
+    span.className = "message__name";
+    li.append(span);
+    li.append(msg.text);
+    msgList.append(li);
 });
